@@ -27,7 +27,6 @@ const Calendar = () => {
     );
   }
 
-
   return (
     <>
       <View style={{ display: 'flex', flexDirection: 'row', margin: 30, alignItems: 'center', gap: 25, justifyContent: 'center' }}>
