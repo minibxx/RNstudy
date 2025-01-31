@@ -6,21 +6,21 @@ import moment from 'moment';
 
 const Monthly = () => {
   const [currentMonth, setCurrentMonth] = useState<moment.Moment>(moment());
-  const [holidays, setHolidays] = useState<string[]>([]);  
+  const [holidays, setHolidays] = useState<string[]>([]);
   const goToPreviousMonth = () => {
     setCurrentMonth(currentMonth.clone().subtract(1, 'month'));
   };
-  
+
   const goToNextMonth = () => {
     setCurrentMonth(currentMonth.clone().add(1, 'month'));
   };
-  
+
   const startDay = currentMonth.clone().startOf('month').startOf('week');
   const endDay = currentMonth.clone().endOf('month').endOf('week');
   const day = startDay.clone().subtract(1, 'day');
   const calendar = [];
 
-  
+
   while (day.isBefore(endDay, 'day')) {
     calendar.push(
       Array(7)
@@ -32,12 +32,12 @@ const Monthly = () => {
     try {
       const year = currentMonth.format('YYYY');
       const month = currentMonth.format('MM');
-      console.log(`Fetching holidays for: ${year}-${month}`); 
+      console.log(`Fetching holidays for: ${year}-${month}`);
       const holidaysData = await getHolidayApi(year, month);
 
       if (!holidaysData || !Array.isArray(holidaysData)) {
         console.warn(`No holidays found for ${year}-${month}`);
-        setHolidays([]); 
+        setHolidays([]);
         return;
       }
 
@@ -47,12 +47,12 @@ const Monthly = () => {
       setHolidays(holidayDates);
     } catch (error) {
       console.error('Error fetching holidays:', error);
-      setHolidays([]); 
+      setHolidays([]);
     }
   };
 
   useEffect(() => {
-    fetchHolidayData(); 
+    fetchHolidayData();
   }, [currentMonth]);
 
   return (
@@ -107,7 +107,7 @@ const Monthly = () => {
                       ]}
                     >
                       {date.format('D')}
-                      
+
                     </Text>
                   </View>
                 );
@@ -115,13 +115,7 @@ const Monthly = () => {
             </View>
           ))}
         </View>
-        <View>
-          {holidays.map((holiday, i) => {
-            return (
-              <Text key={i}>{holiday.dateName}</Text>
-            )
-          })}
-        </View>
+
       </View>
     </>
   );
@@ -185,7 +179,6 @@ const styles = StyleSheet.create({
   holiday: {
     color: 'red',
     borderRadius: 10,
-    padding: 5
   }
 });
 
