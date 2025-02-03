@@ -1,35 +1,31 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-import { getHolidayApi } from "../services/holiday";
-import moment from 'moment';
+import moment, { Moment } from 'moment';
+import { getHolidayApi } from '../services/holiday';
 
-const Weekly = () => {
-  const [currentDate, setCurrentDate] = useState<moment.Moment>(moment());
-  const [holidays, setHolidays] = useState<string[]>([]);
+const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+interface Holiday {
+  date: string;  // YYYYMMDD 형식
+  name: string;  // 공휴일 이름
+}
+
+const Weekly: React.FC = () => {
+  const [currentDate, setCurrentDate] = useState<Moment>(moment());
+  const [holidays, setHolidays] = useState<Holiday[]>([]);
 
   const goToPreviousWeek = () => {
-    setCurrentDate(currentDate.clone().subtract(1, 'week'));
+    setCurrentDate(prev => prev.clone().subtract(1, 'week'));
   };
 
   const goToNextWeek = () => {
-    setCurrentDate(currentDate.clone().add(1, 'week'));
+    setCurrentDate(prev => prev.clone().add(1, 'week'));
   };
 
   const startDay = currentDate.clone().startOf('week');
   const endDay = currentDate.clone().endOf('week');
   const day = startDay.clone().subtract(1, 'day');
-  const calendar = [];
-
-  const firstWeek = currentDate.clone().startOf('month').week();
-  console.log(firstWeek)
-  const weekNum = currentDate.week() - firstWeek + 1;
-  // weekNum은 이번 주차 - 첫 날짜가 그 달의 몇 주차인지 + 1주 추가
-
-  if (weekNum <= 0) {
-    weekNum = moment(currentDate).subtract(1, 'month').weeksInYear() + weekNum;
-  }
-  console.log('wk', weekNum)
+  const calendar: Moment[][] = [];
 
   while (day.isBefore(endDay, 'day')) {
     calendar.push(
@@ -39,11 +35,30 @@ const Weekly = () => {
     );
   }
 
+  // 주차 계산: 1주차는 유지, 6주차는 다음 달 1주차로 변경
+  const getCorrectWeekNumber = (date: Moment): number => {
+    const firstDayOfMonth = date.clone().startOf('month');
+    const weekOffset = firstDayOfMonth.weekday(); // 첫날의 요일 (0: 일요일, 6: 토요일)
+    const calculatedWeek = Math.ceil((date.date() + weekOffset) / 7);
+
+    // 6주차면 다음 달 1주차로 변경
+    if (calculatedWeek >= 6) {
+      const nextMonth = date.clone().add(1, 'week').month();
+      if (nextMonth !== date.month()) {
+        return 1;
+      }
+    }
+    return calculatedWeek;
+  };
+
+  const weekNum = getCorrectWeekNumber(currentDate);
+
   const fetchHolidayData = async () => {
     try {
       const year = currentDate.format('YYYY');
       const month = currentDate.format('MM');
       console.log(`Fetching holidays for: ${year}-${month}`);
+      
       const holidaysData = await getHolidayApi(year, month);
 
       if (!holidaysData || !Array.isArray(holidaysData)) {
@@ -54,12 +69,12 @@ const Weekly = () => {
 
       console.log('Fetched Holidays:', holidaysData);
 
-      const holidayDates = holidaysData.map(holiday => ({
-        date: holiday.locdate.toString(),
-        name : holiday.dateName
+      const holidayDates: Holiday[] = holidaysData.map(holiday => ({
+        date: holiday.locdate.toString(),  // 'YYYYMMDD' 형식
+        name: holiday.dateName  // 공휴일 이름
       }));
+
       setHolidays(holidayDates);
-      console.log(holidays)
     } catch (error) {
       console.error('Error fetching holidays:', error);
       setHolidays([]);
@@ -70,25 +85,17 @@ const Weekly = () => {
     fetchHolidayData();
   }, [currentDate]);
 
-  console.log(holidays)
   return (
     <>
-    <View>
-          {holidays.map((holiday, i) => {
-            return (
-              <Text key={i} >{holiday.name}</Text>
-            )
-          })}
-        </View>
-      <View style={{ display: 'flex', flexDirection: 'row', margin: 30, alignItems: 'center', gap: 25, justifyContent: 'center' }}>
+      <View style={styles.headerContainer}>
         <TouchableOpacity onPress={goToPreviousWeek}>
-          <Text>◀️</Text>
+          <Text style={styles.navButton}>◀️</Text>
         </TouchableOpacity>
         <Text style={styles.monthText}>
-          {currentDate.format('MM') + '월 ' + weekNum + '주차'}
+          {currentDate.format('MM')}월 {weekNum}주차
         </Text>
         <TouchableOpacity onPress={goToNextWeek}>
-          <Text>▶️</Text>
+          <Text style={styles.navButton}>▶️</Text>
         </TouchableOpacity>
       </View>
 
@@ -113,10 +120,14 @@ const Weekly = () => {
           {calendar.map((week, weekIndex) => (
             <View key={weekIndex} style={styles.week}>
               {week.map((date, dayIndex) => {
+                const formattedDate = date.format("YYYYMMDD");
                 const isSunday = date.day() === 0;
                 const isSaturday = date.day() === 6;
-                const isCurrentMonth = date.week() === currentDate.week();
-                const isHoliday = holidays.includes(date.format("YYYYMMDD"));
+
+                // 공휴일 정보 가져오기
+                const holiday = holidays.find(holiday => holiday.date === formattedDate);
+                const isHoliday = !!holiday;
+                const holidayName = holiday?.name;
 
                 return (
                   <View key={dayIndex} style={styles.date}>
@@ -125,31 +136,40 @@ const Weekly = () => {
                         styles.dateText,
                         isSunday && styles.red,
                         isSaturday && styles.blue,
-                        !isCurrentMonth && styles.gray,
                         isHoliday && styles.holiday
                       ]}
                     >
                       {date.format('D')}
-
                     </Text>
+                    {isHoliday && (
+                      <Text style={styles.holidayText}>{holidayName}</Text>
+                    )}
                   </View>
-
                 );
               })}
             </View>
           ))}
         </View>
-        
       </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  monthText: {
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  navButton: {
     fontSize: 24,
-    textAlign: 'center',
+    paddingHorizontal: 20,
+  },
+  monthText: {
+    fontSize: 20,
     fontWeight: 'bold',
+    paddingVertical: 15
   },
   calendarContainer: {
     width: '90%',
@@ -157,7 +177,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
-    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   header: {
     flexDirection: 'row',
@@ -188,8 +212,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   dateText: {
+    fontSize: 16,
     color: '#333',
-    height: 100
   },
   red: {
     color: 'red',
@@ -197,12 +221,14 @@ const styles = StyleSheet.create({
   blue: {
     color: 'blue',
   },
-  gray: {
-    color: '#d5d5d5',
-  },
   holiday: {
     color: 'red',
-    borderRadius: 10,
+  },
+  holidayText: {
+    fontSize: 12,
+    color: 'red',
+    marginTop: 2,
+    textAlign: 'center',
   }
 });
 

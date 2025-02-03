@@ -4,6 +4,11 @@ const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 import { getHolidayApi } from "../services/holiday";
 import moment from 'moment';
 
+interface Holiday {
+  date: string;  // YYYYMMDD 형식
+  name: string;  // 공휴일 이름
+}
+
 const Monthly = () => {
   const [currentMonth, setCurrentMonth] = useState<moment.Moment>(moment());
   const [holidays, setHolidays] = useState<string[]>([]);
@@ -41,9 +46,11 @@ const Monthly = () => {
         return;
       }
 
-      console.log('Fetched Holidays:', holidaysData);
+      const holidayDates: Holiday[] = holidaysData.map(holiday => ({
+        date: holiday.locdate.toString(),  // 'YYYYMMDD' 형식
+        name: holiday.dateName  // 공휴일 이름
+      }));
 
-      const holidayDates = holidaysData.map(holiday => holiday.locdate.toString()); // 'YYYYMMDD' 형식으로 변환
       setHolidays(holidayDates);
     } catch (error) {
       console.error('Error fetching holidays:', error);
@@ -94,6 +101,10 @@ const Monthly = () => {
                 const isSaturday = date.day() === 6;
                 const isCurrentMonth = date.month() === currentMonth.month();
                 const isHoliday = holidays.includes(date.format("YYYYMMDD"));
+                const formattedDate = date.format("YYYYMMDD");
+                const holiday = holidays.find(holiday => holiday.date === formattedDate);
+                const isHolidayName = !!holiday;
+                const holidayName = holiday?.name;
 
                 return (
                   <View key={dayIndex} style={styles.date}>
@@ -109,19 +120,25 @@ const Monthly = () => {
                       {date.format('D')}
 
                     </Text>
+                    {isHolidayName && (
+                      <Text style={styles.holiday}>{holidayName}</Text>
+                    )}
                   </View>
                 );
               })}
             </View>
           ))}
         </View>
-
       </View>
+      
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  plus: {
+    paddingHorizontal: 50
+  },
   monthText: {
     fontSize: 24,
     textAlign: 'center',
@@ -133,6 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
+    paddingVertical: 20,
     boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
   },
   header: {
@@ -162,10 +180,10 @@ const styles = StyleSheet.create({
     width: '14.2%',
     alignItems: 'center',
     paddingVertical: 10,
+    height: 70
   },
   dateText: {
     color: '#333',
-    height: 60
   },
   red: {
     color: 'red',
@@ -178,8 +196,7 @@ const styles = StyleSheet.create({
   },
   holiday: {
     color: 'red',
-    borderRadius: 10,
-  }
+  },
 });
 
 export default Monthly;
