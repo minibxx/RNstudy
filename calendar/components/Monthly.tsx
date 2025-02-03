@@ -1,38 +1,40 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 import { getHolidayApi } from "../services/holiday";
-import moment from 'moment';
+import moment, { Moment } from 'moment';
+
+const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 interface Holiday {
-  date: string;  // YYYYMMDD 형식
-  name: string;  // 공휴일 이름
+  date: string; // YYYYMMDD 형식
+  name: string; // 공휴일 이름
 }
 
-const Monthly = () => {
-  const [currentMonth, setCurrentMonth] = useState<moment.Moment>(moment());
-  const [holidays, setHolidays] = useState<string[]>([]);
+const Monthly: React.FC = () => {
+  const [currentMonth, setCurrentMonth] = useState<Moment>(moment());
+  const [holidays, setHolidays] = useState<Holiday[]>([]);
+
   const goToPreviousMonth = () => {
-    setCurrentMonth(currentMonth.clone().subtract(1, 'month'));
+    setCurrentMonth(prev => prev.clone().subtract(1, 'month'));
   };
 
   const goToNextMonth = () => {
-    setCurrentMonth(currentMonth.clone().add(1, 'month'));
+    setCurrentMonth(prev => prev.clone().add(1, 'month'));
   };
 
   const startDay = currentMonth.clone().startOf('month').startOf('week');
   const endDay = currentMonth.clone().endOf('month').endOf('week');
   const day = startDay.clone().subtract(1, 'day');
-  const calendar = [];
-
+  const calendar: Moment[][] = [];
 
   while (day.isBefore(endDay, 'day')) {
     calendar.push(
       Array(7)
-        .fill(0)
+        .fill(null)
         .map(() => day.add(1, 'day').clone())
     );
   }
+
   const fetchHolidayData = async () => {
     try {
       const year = currentMonth.format('YYYY');
@@ -46,9 +48,9 @@ const Monthly = () => {
         return;
       }
 
-      const holidayDates: Holiday[] = holidaysData.map(holiday => ({
-        date: holiday.locdate.toString(),  // 'YYYYMMDD' 형식
-        name: holiday.dateName  // 공휴일 이름
+      const holidayDates: Holiday[] = holidaysData.map((holiday: any) => ({
+        date: holiday.locdate.toString(), // 'YYYYMMDD' 형식
+        name: holiday.dateName, // 공휴일 이름
       }));
 
       setHolidays(holidayDates);
@@ -64,7 +66,7 @@ const Monthly = () => {
 
   return (
     <>
-      <View style={{ display: 'flex', flexDirection: 'row', margin: 30, alignItems: 'center', gap: 25, justifyContent: 'center' }}>
+      <View style={styles.headerContainer}>
         <TouchableOpacity onPress={goToPreviousMonth}>
           <Text>◀️</Text>
         </TouchableOpacity>
@@ -97,15 +99,12 @@ const Monthly = () => {
           {calendar.map((week, weekIndex) => (
             <View key={weekIndex} style={styles.week}>
               {week.map((date, dayIndex) => {
+                const formattedDate = date.format("YYYYMMDD");
                 const isSunday = date.day() === 0;
                 const isSaturday = date.day() === 6;
                 const isCurrentMonth = date.month() === currentMonth.month();
-                const isHoliday = holidays.includes(date.format("YYYYMMDD"));
-                const formattedDate = date.format("YYYYMMDD");
-                const holiday = holidays.find(holiday => holiday.date === formattedDate);
-                const isHolidayName = !!holiday;
-                const holidayName = holiday?.name;
-
+                const holiday = holidays.find(h => h.date === formattedDate);
+                
                 return (
                   <View key={dayIndex} style={styles.date}>
                     <Text
@@ -114,14 +113,13 @@ const Monthly = () => {
                         isSunday && styles.red,
                         isSaturday && styles.blue,
                         !isCurrentMonth && styles.gray,
-                        isHoliday && styles.holiday
+                        holiday && styles.holiday
                       ]}
                     >
                       {date.format('D')}
-
                     </Text>
-                    {isHolidayName && (
-                      <Text style={styles.holiday}>{holidayName}</Text>
+                    {holiday && (
+                      <Text style={styles.holidayText}>{holiday.name}</Text>
                     )}
                   </View>
                 );
@@ -130,19 +128,22 @@ const Monthly = () => {
           ))}
         </View>
       </View>
-      
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  plus: {
-    paddingHorizontal: 50
+  headerContainer: {
+    flexDirection: 'row',
+    marginBottom: 30,
+    alignItems: 'center',
+    gap: 25,
+    justifyContent: 'center',
   },
   monthText: {
-    fontSize: 24,
-    textAlign: 'center',
+    fontSize: 20,
     fontWeight: 'bold',
+    paddingVertical: 15
   },
   calendarContainer: {
     width: '90%',
@@ -150,8 +151,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
-    paddingVertical: 20,
-    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   header: {
     flexDirection: 'row',
@@ -180,10 +184,16 @@ const styles = StyleSheet.create({
     width: '14.2%',
     alignItems: 'center',
     paddingVertical: 10,
-    height: 70
+    height: 70,
   },
   dateText: {
     color: '#333',
+  },
+  holidayText: {
+    fontSize: 12,
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 3,
   },
   red: {
     color: 'red',

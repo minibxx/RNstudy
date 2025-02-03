@@ -158,9 +158,10 @@ const Weekly: React.FC = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    margin: 30,
     alignItems: 'center',
-    marginVertical: 20,
+    gap: 25,
+    justifyContent: 'center',
   },
   navButton: {
     fontSize: 24,
