@@ -12,7 +12,7 @@ interface Holiday {
 }
 
 const Weekly: React.FC = () => {
-  const { startDate, endDate, todate, goToPreviousWeek, goToNextWeek, selectedDate, setSelectedDate } = useCalendarStore();
+  const { startDate, endDate, goToPreviousWeek, goToNextWeek, selectedDate, setSelectedDate, schedules } = useCalendarStore();
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
   const day = startDate.clone().subtract(1, 'day');
@@ -60,7 +60,6 @@ const Weekly: React.FC = () => {
 
   const weekNum = startDate.isoWeek() - startDate.clone().startOf('month').isoWeek() + 2;
 
-
   return (
     <>
       <View style={styles.headerContainer}>
@@ -105,6 +104,11 @@ const Weekly: React.FC = () => {
                 const isHoliday = !!holiday;
                 const holidayName = holiday?.name;
 
+                // 해당 날짜의 스케줄 가져오기
+                const scheduleForDate = schedules.filter(schedule => 
+                    moment(schedule.date).format("YYYYMMDD") === formattedDate
+                );
+
                 return (
                   <View key={dayIndex} style={styles.date}>
                     <Text
@@ -119,6 +123,13 @@ const Weekly: React.FC = () => {
                     </Text>
                     {isHoliday && (
                       <Text style={styles.holidayText}>{holidayName}</Text>
+                    )}
+                    {scheduleForDate.length > 0 && (
+                      <View style={styles.scheduleContainer}>
+                        {scheduleForDate.map((schedule, index) => (
+                          <Text key={index} style={styles.scheduleText}>{schedule.text}</Text>
+                        ))}
+                      </View>
                     )}
                   </View>
                 );
@@ -163,7 +174,6 @@ const styles = StyleSheet.create({
   },
   day: {
     flex: 1,
-    // alignItems: 'center',
     paddingTop: 10,
   },
   dayText: {
@@ -182,7 +192,6 @@ const styles = StyleSheet.create({
   },
   date: {
     width: '14.2%',
-    // alignItems: 'center',
     paddingVertical: 10,
     height: 120,
   },
@@ -203,7 +212,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'red',
     marginTop: 3,
-    // textAlign: 'center',
+  },
+  scheduleContainer: {
+    marginTop: 5,
+  },
+  scheduleText: {
+    fontSize: 12,
+    color: '#333',
   }
 });
 

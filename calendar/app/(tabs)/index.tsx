@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, TouchableOpacity, ScrollView, TextInput, SafeAr
 import Monthly from '../../components/Monthly'
 import Weekly from '../../components/Weekly'
 import Test from '@/components/Test';
+import Schedule from '@/components/Schedule';
 
 const HomeScreen = () => {
   const [clickCalendar, setClickCalendar] = useState<string>('monthly');
@@ -35,7 +36,9 @@ const HomeScreen = () => {
         :
        <Weekly /> 
         }
-        <Test />
+
+        <Schedule/>
+        {/* <Test /> */}
       </ScrollView>
     </SafeAreaView>
     </>
