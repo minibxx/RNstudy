@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import moment, { Moment } from 'moment';
 import { getHolidayApi } from '../services/holiday';
+import { useCalendarStore } from '../stores/calendarStore';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -11,23 +12,13 @@ interface Holiday {
 }
 
 const Weekly: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState<Moment>(moment());
+  const { startDate, endDate, todate, goToPreviousWeek, goToNextWeek, selectedDate, setSelectedDate } = useCalendarStore();
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
-  const goToPreviousWeek = () => {
-    setCurrentDate(prev => prev.clone().subtract(1, 'week'));
-  };
-
-  const goToNextWeek = () => {
-    setCurrentDate(prev => prev.clone().add(1, 'week'));
-  };
-
-  const startDay = currentDate.clone().startOf('week');
-  const endDay = currentDate.clone().endOf('week');
-  const day = startDay.clone().subtract(1, 'day');
+  const day = startDate.clone().subtract(1, 'day');
   const calendar: Moment[][] = [];
 
-  while (day.isBefore(endDay, 'day')) {
+  while (day.isBefore(endDate, 'day')) {
     calendar.push(
       Array(7)
         .fill(0)
@@ -35,28 +26,10 @@ const Weekly: React.FC = () => {
     );
   }
 
-  // 주차 계산: 1주차는 유지, 6주차는 다음 달 1주차로 변경
-  const getCorrectWeekNumber = (date: Moment): number => {
-    const firstDayOfMonth = date.clone().startOf('month');
-    const weekOffset = firstDayOfMonth.weekday(); // 첫날의 요일 (0: 일요일, 6: 토요일)
-    const calculatedWeek = Math.ceil((date.date() + weekOffset) / 7);
-
-    // 6주차면 다음 달 1주차로 변경
-    if (calculatedWeek >= 6) {
-      const nextMonth = date.clone().add(1, 'week').month();
-      if (nextMonth !== date.month()) {
-        return 1;
-      }
-    }
-    return calculatedWeek;
-  };
-
-  const weekNum = getCorrectWeekNumber(currentDate);
-
   const fetchHolidayData = async () => {
     try {
-      const year = currentDate.format('YYYY');
-      const month = currentDate.format('MM');
+      const year = startDate.format('YYYY');
+      const month = startDate.format('MM');
       console.log(`Fetching holidays for: ${year}-${month}`);
       
       const holidaysData = await getHolidayApi(year, month);
@@ -83,19 +56,22 @@ const Weekly: React.FC = () => {
 
   useEffect(() => {
     fetchHolidayData();
-  }, [currentDate]);
+  }, [startDate]);
+
+  const weekNum = startDate.isoWeek() - startDate.clone().startOf('month').isoWeek() + 2;
+
 
   return (
     <>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={goToPreviousWeek}>
-          <Text style={styles.navButton}>◀️</Text>
+          <Text>◀️</Text>
         </TouchableOpacity>
         <Text style={styles.monthText}>
-          {currentDate.format('MM')}월 {weekNum}주차
+          {startDate.format('MM')}월 {weekNum}주차
         </Text>
         <TouchableOpacity onPress={goToNextWeek}>
-          <Text style={styles.navButton}>▶️</Text>
+          <Text >▶️</Text>
         </TouchableOpacity>
       </View>
 
@@ -158,19 +134,15 @@ const Weekly: React.FC = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    margin: 30,
+    margin: 20,
     alignItems: 'center',
     gap: 25,
     justifyContent: 'center',
   },
-  navButton: {
-    fontSize: 24,
-    paddingHorizontal: 20,
-  },
   monthText: {
     fontSize: 20,
     fontWeight: 'bold',
-    paddingVertical: 15
+    paddingVertical: 10
   },
   calendarContainer: {
     width: '90%',
@@ -178,6 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
+    paddingLeft: 25,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -190,8 +163,8 @@ const styles = StyleSheet.create({
   },
   day: {
     flex: 1,
-    alignItems: 'center',
-    paddingVertical: 10,
+    // alignItems: 'center',
+    paddingTop: 10,
   },
   dayText: {
     fontWeight: 'bold',
@@ -209,8 +182,9 @@ const styles = StyleSheet.create({
   },
   date: {
     width: '14.2%',
-    alignItems: 'center',
+    // alignItems: 'center',
     paddingVertical: 10,
+    height: 120,
   },
   dateText: {
     fontSize: 16,
@@ -228,8 +202,8 @@ const styles = StyleSheet.create({
   holidayText: {
     fontSize: 12,
     color: 'red',
-    marginTop: 2,
-    textAlign: 'center',
+    marginTop: 3,
+    // textAlign: 'center',
   }
 });
 

@@ -1,22 +1,24 @@
-import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView, TextInput } from "react-native";
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, TextInput, SafeAreaView } from "react-native";
 
 import Monthly from '../../components/Monthly'
 import Weekly from '../../components/Weekly'
 import Test from '@/components/Test';
 
 const HomeScreen = () => {
-
+  const [clickCalendar, setClickCalendar] = useState<string>('monthly');
   const clickMonth = () => {
-
+    setClickCalendar('monthly')
   }
   const clickWeek = () => {
-
+    setClickCalendar('weekly')
   }
   return (
     <>
+     <SafeAreaView style={styles.container}>
+      
       <ScrollView>
-        <View style={{display: 'flex', flexDirection: 'row', justifyContent:'flex-end', gap: 10, padding: '3%'}}>
+        <View style={{display: 'flex', flexDirection: 'row', justifyContent:'flex-end', gap: 10, paddingRight: '4%', paddingTop: '3%'}}>
           <TouchableOpacity
             onPress={clickMonth}
           >
@@ -28,15 +30,22 @@ const HomeScreen = () => {
             <Text style={{}}>주간</Text>
           </TouchableOpacity>
         </View>
+        { clickCalendar == 'monthly' ? 
         <Monthly />
-        {/* <Weekly /> */}
+        :
+       <Weekly /> 
+        }
         <Test />
       </ScrollView>
+    </SafeAreaView>
     </>
   )
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
 	plus: {
 		backgroundColor: 'blue'
 	}

@@ -135,7 +135,7 @@ const Monthly: React.FC = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    marginBottom: 30,
+    margin: 20,
     alignItems: 'center',
     gap: 25,
     justifyContent: 'center',
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   monthText: {
     fontSize: 20,
     fontWeight: 'bold',
-    paddingVertical: 15
+    paddingVertical: 10
   },
   calendarContainer: {
     width: '90%',
