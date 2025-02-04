@@ -11,8 +11,8 @@ interface Holiday {
   name: string;  // 공휴일 이름
 }
 
-const Weekly: React.FC = () => {
-  const { startDate, endDate, goToPreviousWeek, goToNextWeek, selectedDate, setSelectedDate, schedules } = useCalendarStore();
+const Weekly = () => {
+  const { startDate, endDate, goToPreviousWeek, goToNextWeek, selectedDate, setSelectedDate, schedules, types } = useCalendarStore();
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
   const day = startDate.clone().subtract(1, 'day');

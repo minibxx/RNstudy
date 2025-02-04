@@ -36,7 +36,7 @@ const Schedule = () => {
             />
 
             <TextInput
-                placeholder="스케줄 입력"
+                placeholder="개인 스케줄 입력"
                 placeholderTextColor={'gray'}
                 style={styles.input}
                 value={scheduleText}

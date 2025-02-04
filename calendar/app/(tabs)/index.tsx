@@ -5,6 +5,7 @@ import Monthly from '../../components/Monthly'
 import Weekly from '../../components/Weekly'
 import Test from '@/components/Test';
 import Schedule from '@/components/Schedule';
+import ScheduleWork from '@/components/WorkType';
 
 const HomeScreen = () => {
   const [clickCalendar, setClickCalendar] = useState<string>('monthly');
@@ -18,7 +19,7 @@ const HomeScreen = () => {
     <>
      <SafeAreaView style={styles.container}>
       
-      <ScrollView>
+      {/* <ScrollView> */}
         <View style={{display: 'flex', flexDirection: 'row', justifyContent:'flex-end', gap: 10, paddingRight: '4%', paddingTop: '3%'}}>
           <TouchableOpacity
             onPress={clickMonth}
@@ -38,8 +39,9 @@ const HomeScreen = () => {
         }
 
         <Schedule/>
+        <ScheduleWork/>
         {/* <Test /> */}
-      </ScrollView>
+      {/* </ScrollView> */}
     </SafeAreaView>
     </>
   )
