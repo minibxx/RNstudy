@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextStyle } from 'react-native';
 import moment, { Moment } from 'moment';
 import { getHolidayApi } from '../services/holiday';
 import { useCalendarStore } from '../stores/calendarStore';
@@ -114,10 +114,10 @@ const Weekly: React.FC = () => {
                 );
 
                 const workTypeStyles: Record<string, TextStyle> = {
-                  "연장": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#ffb61e" },  // 연장
-                  "파견": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#ffa400" }, // 파견
-                  "외근": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#fa8c35" }, // 외근
-                  "출장": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#ff7500" },   // 출장
+                  "연장": { color: "white", textAlign: 'center', borderRadius: 50, marginBottom: 3, paddingHorizontal: 10, backgroundColor: "#ffb61e" },  // 연장
+                  "파견": { color: "white", textAlign: 'center', borderRadius: 50, marginBottom: 3, paddingHorizontal: 10, backgroundColor: "#ffa400" }, // 파견
+                  "외근": { color: "white", textAlign: 'center', borderRadius: 50, marginBottom: 3, paddingHorizontal: 10, backgroundColor: "#fa8c35" }, // 외근
+                  "출장": { color: "white", textAlign: 'center', borderRadius: 50, marginBottom: 3, paddingHorizontal: 10, backgroundColor: "#ff7500" },   // 출장
                 };
                 return (
                   <View key={dayIndex} style={styles.date}>
@@ -139,15 +139,15 @@ const Weekly: React.FC = () => {
                         {scheduleForDate.map((schedule, index) => (
                           <Text key={index} style={styles.scheduleText}>{schedule.text}</Text>
                         ))}
-                       {workTypeForDate.length > 0 && (
-  <View>
-    {workTypeForDate.map((k, i) => (
-      <Text key={i} style={workTypeStyles[k.type] || { color: "black" }}>
-        {k.type}
-      </Text>
-    ))}
-  </View>
-)}
+                        {workTypeForDate.length > 0 && (
+                          <View>
+                            {workTypeForDate.map((k, i) => (
+                              <Text key={i} style={workTypeStyles[k.type] || { color: "black" }}>
+                                {k.type}
+                              </Text>
+                            ))}
+                          </View>
+                        )}
 
 
                       </View>
@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
-    paddingLeft: 25,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -200,6 +199,7 @@ const styles = StyleSheet.create({
   dayText: {
     fontWeight: 'bold',
     color: '#333',
+    textAlign: "center"    
   },
   grid: {
     flexDirection: 'row',
@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 16,
     color: '#333',
+    textAlign: "center"
   },
   red: {
     color: 'red',
@@ -230,6 +231,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   holidayText: {
+    textAlign: 'center',
     fontSize: 12,
     color: 'red',
     marginTop: 3,
@@ -238,14 +240,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   scheduleText: {
-    fontSize: 12,
     color: '#fff',
-    backgroundColor: 'skyblue',
+    backgroundColor: '#44cef6',
     borderRadius: 50,
     paddingHorizontal: 10,
-    paddingVertical: 3,
-    marginBottom: 2,
-    alignSelf: 'flex-start'
+    marginBottom: 3,
+    textAlign: 'center'
   }
 });
 

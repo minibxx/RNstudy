@@ -20,6 +20,7 @@ interface CalendarState {
     types: WorkType[];
     goToPreviousWeek: () => void;
     goToNextWeek: () => void;
+    
     setSelectedDate: (date: Moment) => void;
     addSchedule: (text: string, date: Moment) => void;
     addWorkType: (type: string, date: Moment) => void;
