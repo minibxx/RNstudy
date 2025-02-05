@@ -1,49 +1,69 @@
+import { useCalendarStore } from "@/stores/calendarStore";
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
 import DropDownPicker from 'react-native-dropdown-picker';
+import moment from "moment";
 
 const WorkType = () => {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
-    const [items, setItems] = useState([
+    const [workType, setWorkType] = useState<string | null>(null);
+    const [workDate, setWorkDate] = useState<string>('');
+
+    const { addWorkType } = useCalendarStore();
+
+    const items = [
         { label: '연장', value: '연장' },
         { label: '파견', value: '파견' },
         { label: '외근', value: '외근' },
         { label: '출장', value: '출장' },
-    ]);
+    ];
+
+    const submitType2 = () => {
+        if (workDate && workType !== null) {
+            const formattedDate = moment(workDate, "YYYY-MM-DD");
+            if (!formattedDate.isValid()) {
+                console.error("유효하지 않은 날짜 형식입니다.");
+                return;
+            }
+
+            console.log("저장된 일정:", { type: workType, date: formattedDate.format("YYYY-MM-DD") });
+
+            addWorkType(workType, formattedDate); 
+            setWorkDate(moment().format("YYYY-MM-DD"));
+            setWorkType('');
+
+        }
+    };
 
     return (
-        <><View style={styles.testContainer}>
+        <View style={styles.testContainer}>
             <TextInput
                 placeholder="날짜 (YYYY-MM-DD)"
                 placeholderTextColor={'gray'}
-            style={styles.input}
-            // value={scheduleDate}
-            // onChangeText={setScheduleDate} 
+                style={styles.input}
+                value={workDate}
+                onChangeText={setWorkDate}
             />
 
             <DropDownPicker
                 placeholder="근무 형태 선택"
                 open={open}
-                value={value}
+                value={workType}
                 items={items}
                 setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
+                setValue={setWorkType}
                 style={styles.dropdown}
                 placeholderStyle={{ color: 'gray' }}
-                containerStyle={styles.dropdownContainer}  // 부모 컨테이너 스타일
-                dropDownContainerStyle={styles.dropDownContainer}  // 목록 스타일
-                zIndex={1000}  // 다른 요소 위에 표시
+                containerStyle={styles.dropdownContainer}
+                dropDownContainerStyle={styles.dropDownContainer}
             />
 
-            <TouchableOpacity >
+            <TouchableOpacity onPress={submitType2}>
                 <Text style={styles.plus}>+</Text>
             </TouchableOpacity>
         </View>
-        </>
     );
-}
+};
 
 const styles = StyleSheet.create({
     testContainer: {
@@ -80,9 +100,9 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         borderWidth: 1,
     },
-    input:{
-        width: "35%"
+    input: {
+        width: "35%",
     }
-})
+});
 
 export default WorkType;

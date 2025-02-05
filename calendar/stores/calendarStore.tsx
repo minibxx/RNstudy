@@ -8,26 +8,28 @@ interface Schedule {
 
 interface WorkType {
     date: Moment;
-    type: number;
+    type: string;
   }
 
 interface CalendarState {
     startDate: Moment;
     endDate: Moment;
     selectedDate: Moment | null;
+    selectedType: Moment | null;
     schedules: Schedule[];
     types: WorkType[];
     goToPreviousWeek: () => void;
     goToNextWeek: () => void;
     setSelectedDate: (date: Moment) => void;
     addSchedule: (text: string, date: Moment) => void;
-    addWorkType: (type: number, date: Moment) => void;
+    addWorkType: (type: string, date: Moment) => void;
 }
 
 export const useCalendarStore = create<CalendarState>((set) => ({
     startDate: moment().startOf('week'),
     endDate: moment().endOf('week'),
     selectedDate: null,
+    selectedType: null,
     schedules: [],
     types: [],
 

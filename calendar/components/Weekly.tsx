@@ -11,8 +11,8 @@ interface Holiday {
   name: string;  // 공휴일 이름
 }
 
-const Weekly = () => {
-  const { startDate, endDate, goToPreviousWeek, goToNextWeek, selectedDate, setSelectedDate, schedules, types } = useCalendarStore();
+const Weekly: React.FC = () => {
+  const { startDate, endDate, goToPreviousWeek, goToNextWeek, schedules, types } = useCalendarStore();
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
   const day = startDate.clone().subtract(1, 'day');
@@ -31,7 +31,7 @@ const Weekly = () => {
       const year = startDate.format('YYYY');
       const month = startDate.format('MM');
       console.log(`Fetching holidays for: ${year}-${month}`);
-      
+
       const holidaysData = await getHolidayApi(year, month);
 
       if (!holidaysData || !Array.isArray(holidaysData)) {
@@ -105,10 +105,20 @@ const Weekly = () => {
                 const holidayName = holiday?.name;
 
                 // 해당 날짜의 스케줄 가져오기
-                const scheduleForDate = schedules.filter(schedule => 
-                    moment(schedule.date).format("YYYYMMDD") === formattedDate
+                const scheduleForDate = schedules.filter(schedule =>
+                  moment(schedule.date).format("YYYYMMDD") === formattedDate
                 );
 
+                const workTypeForDate = types.filter(type =>
+                  moment(type.date).format("YYYYMMDD") === formattedDate
+                );
+
+                const workTypeStyles: Record<string, TextStyle> = {
+                  "연장": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#ffb61e" },  // 연장
+                  "파견": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#ffa400" }, // 파견
+                  "외근": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#fa8c35" }, // 외근
+                  "출장": { color: "white", width: 50, borderRadius: 50, marginBottom: 2, paddingHorizontal: 10,  backgroundColor: "#ff7500" },   // 출장
+                };
                 return (
                   <View key={dayIndex} style={styles.date}>
                     <Text
@@ -129,6 +139,17 @@ const Weekly = () => {
                         {scheduleForDate.map((schedule, index) => (
                           <Text key={index} style={styles.scheduleText}>{schedule.text}</Text>
                         ))}
+                       {workTypeForDate.length > 0 && (
+  <View>
+    {workTypeForDate.map((k, i) => (
+      <Text key={i} style={workTypeStyles[k.type] || { color: "black" }}>
+        {k.type}
+      </Text>
+    ))}
+  </View>
+)}
+
+
                       </View>
                     )}
                   </View>
@@ -193,7 +214,7 @@ const styles = StyleSheet.create({
   date: {
     width: '14.2%',
     paddingVertical: 10,
-    height: 120,
+    height: 200,
   },
   dateText: {
     fontSize: 16,
@@ -218,7 +239,13 @@ const styles = StyleSheet.create({
   },
   scheduleText: {
     fontSize: 12,
-    color: '#333',
+    color: '#fff',
+    backgroundColor: 'skyblue',
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    marginBottom: 2,
+    alignSelf: 'flex-start'
   }
 });
 
