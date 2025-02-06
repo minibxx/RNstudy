@@ -1,9 +1,11 @@
 'use client';
 import html2canvas from "html2canvas";
 import { useRef, useEffect } from "react";
-
+import { useInfoStore } from "@/stores/stampStore";
 
 const Stamp = () => {
+  const { stampType, stampLang, stampFont, stampName, setStampType, setStampLang, setStampFont, setStampName } = useInfoStore();
+  console.log("나오는지 보면요", stampName);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -31,8 +33,8 @@ const Stamp = () => {
     ctx.fillStyle = "red";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("홍길동", size / 2, size / 2);
-  }, []);
+    ctx.fillText(stampName, size / 2, size / 2);
+  }, [stampName]);
 
   return <canvas ref={canvasRef} style={{ background: "transparent" }} />;
 }
