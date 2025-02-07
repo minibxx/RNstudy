@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextStyle } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextStyle, Alert } from 'react-native';
 import moment, { Moment } from 'moment';
 import { getHolidayApi } from '../services/holiday';
 import { useCalendarStore } from '../stores/calendarStore';
+import WorkType from './WorkType';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -12,7 +13,7 @@ interface Holiday {
 }
 
 const Weekly: React.FC = () => {
-  const { startDate, endDate, goToPreviousWeek, goToNextWeek, schedules, types } = useCalendarStore();
+  const { startDate, endDate, goToPreviousWeek, goToNextWeek, schedules, types, removeSchedule, removeWorkType } = useCalendarStore();
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
   const day = startDate.clone().subtract(1, 'day');
@@ -59,6 +60,27 @@ const Weekly: React.FC = () => {
   }, [startDate]);
 
   const weekNum = startDate.isoWeek() - startDate.clone().startOf('month').isoWeek() + 2;
+
+  const handleLongPressDelete = (date: Moment, text: string) => {
+    Alert.alert(
+      "일정 삭제",
+      `"${text}" 일정을 삭제하시겠습니까?`,
+      [
+        { text: "취소", style: "cancel" },
+        { text: "삭제", style: "destructive", onPress: () => removeSchedule(date, text) }
+      ]
+    );
+  };
+  const handleLongPressDelete2 = (date: Moment, type: string) => {
+    Alert.alert(
+      "일정 삭제",
+      `"${type}" 일정을 삭제하시겠습니까?`,
+      [
+        { text: "취소", style: "cancel" },
+        { text: "삭제", style: "destructive", onPress: () => removeWorkType(date, type) }
+      ]
+    );
+  };
 
   return (
     <>
@@ -137,14 +159,22 @@ const Weekly: React.FC = () => {
                     {scheduleForDate.length > 0 && (
                       <View style={styles.scheduleContainer}>
                         {scheduleForDate.map((schedule, index) => (
-                          <Text key={index} style={styles.scheduleText}>{schedule.text}</Text>
+                          <TouchableOpacity key={index} 
+                          style={styles.scheduleItem} 
+                          onLongPress={() => handleLongPressDelete(schedule.date, schedule.text)}>
+                            <Text key={index} style={styles.scheduleText}>{schedule.text}</Text>
+                          </TouchableOpacity>
                         ))}
                         {workTypeForDate.length > 0 && (
                           <View>
                             {workTypeForDate.map((k, i) => (
-                              <Text key={i} style={workTypeStyles[k.type] || { color: "black" }}>
-                                {k.type}
-                              </Text>
+                              <TouchableOpacity key={i} 
+                              style={styles.scheduleItem} 
+                              onLongPress={() => handleLongPressDelete2(k.date, k.type)}>
+                                <Text key={i} style={workTypeStyles[k.type] || { color: "black" }}>
+                                  {k.type}
+                                </Text>
+                              </TouchableOpacity>
                             ))}
                           </View>
                         )}
@@ -214,7 +244,6 @@ const styles = StyleSheet.create({
   date: {
     width: '14.2%',
     paddingVertical: 10,
-    height: 200,
   },
   dateText: {
     fontSize: 16,
@@ -246,6 +275,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 3,
     textAlign: 'center'
+  },
+  scheduleItem:{
   }
 });
 

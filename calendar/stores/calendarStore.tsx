@@ -24,6 +24,8 @@ interface CalendarState {
     setSelectedDate: (date: Moment) => void;
     addSchedule: (text: string, date: Moment) => void;
     addWorkType: (type: string, date: Moment) => void;
+    removeSchedule: (date: Moment, text: string) => void;
+    removeWorkType: (date: Moment, type: string) => void;
 }
 
 export const useCalendarStore = create<CalendarState>((set) => ({
@@ -58,9 +60,27 @@ export const useCalendarStore = create<CalendarState>((set) => ({
             schedules: [...state.schedules, { text, date }],
         }));
     },
+    removeSchedule: (date, text) => 
+        set((state) => ({
+            schedules: state.schedules.filter(schedule => 
+                !(
+                    schedule.date.format('YYYYMMDD') === date.format('YYYYMMDD') && 
+                    schedule.text === text
+                )
+            )
+        })),
     addWorkType: (type, date) =>{
         set((state) => ({
             types: [...state.types, { type, date}],
         }));
-    }
+    },
+    removeWorkType: (date, type) => 
+        set((state) => ({
+            types: state.types.filter(types => 
+                !(
+                    types.date.format('YYYYMMDD') === date.format('YYYYMMDD') && 
+                    types.type === type
+                )
+            )
+        })),
 }));
