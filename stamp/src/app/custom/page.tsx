@@ -59,7 +59,7 @@ export default function Home() {
           <input className="border-2" placeholder="회사 명을 입력하세요" value={inputCompany} onChange={(e) => { setInputCompany(e.target.value) }}></input>
           <button className="px-[10px] text-white bg-[gray]" onClick={saveName}>도장 생성하기</button>
         </div>
-        <div>*선택하신 '언어'에 맞는 한글 또는 한자를 입력하세요.</div>
+        <div>*최대 글자 입력 가능</div>
       </div>
 
       <Stamp />
