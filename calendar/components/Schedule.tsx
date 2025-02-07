@@ -35,18 +35,26 @@ const Schedule = () => {
 
     return (
         <View style={styles.testContainer}>
-            {/* 날짜 선택 버튼 */}
+             <TextInput
+                            placeholder="날짜 (YYYY-MM-DD)"
+                            placeholderTextColor={'gray'}
+                        style={styles.input}
+                        value={scheduleDate}
+                        onChangeText={setScheduleDate} 
+                        />
+
+            {/* 날짜 선택 버튼
             <TouchableOpacity onPress={() => setDatePickerVisible(true)} style={styles.input}>
                 <Text style={styles.dateText}>{"날짜 선택"}</Text>
             </TouchableOpacity>
 
             {/* 날짜 선택 모달 */}
-            <DateTimePickerModal
+            {/* <DateTimePickerModal
                 isVisible={!isWeb && datePickerVisible} 
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={() => setDatePickerVisible(false)}
-            />
+            /> */}
 
 
             <TextInput

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, TextInput } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DropDownPicker from "react-native-dropdown-picker";
 import moment from "moment";
@@ -43,18 +43,25 @@ const WorkType = () => {
 
     return (
         <View style={styles.testContainer}>
-            {/* 날짜 선택 버튼 */}
+            <TextInput
+                placeholder="날짜 (YYYY-MM-DD)"
+                placeholderTextColor={'gray'}
+            style={styles.input}
+            value={workDate}
+            onChangeText={setWorkDate} 
+            />
+
+            {/* 날짜 선택 버튼
             <TouchableOpacity onPress={() => setDatePickerVisible(true)} style={styles.input}>
                 <Text style={styles.dateText}>{"날짜 선택"}</Text>
-            </TouchableOpacity>
-
-            {/* 날짜 선택 모달 */}
+            </TouchableOpacity> */}
+            {/* 날짜 선택 모달
             <DateTimePickerModal
                 isVisible={datePickerVisible}
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={() => setDatePickerVisible(false)}
-            />
+            /> */}
 
             {/* 근무 형태 드롭다운 */}
             <DropDownPicker
