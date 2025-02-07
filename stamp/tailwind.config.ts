@@ -1,3 +1,4 @@
+import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 import type { Config } from "tailwindcss";
 
 export default {
@@ -12,6 +13,11 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      extend: {
+        fontFamily: {
+          hjb: ['HJB'],
+        },
+      }
     },
   },
   plugins: [],

@@ -7,22 +7,6 @@ const Stamp = () => {
   const { stampType, stampLang, stampFont, stampName, setStampType, setStampLang, setStampFont, setStampName } = useInfoStore();
   console.log("나오는지 보면요", stampName);
 
-  // 텍스트 변경 함수
-  const handleNameChange = (newText: string) => {
-    setStampName({ text: newText });
-  };
-
-  // 폰트 크기 변경 함수
-  const handleFontSizeChange = (newSize: number) => {
-    setStampName({ fontSize: newSize });
-  };
-
-  // 색상 변경 함수
-  const handleColorChange = (newColor: string) => {
-    setStampName({ color: newColor });
-  };
-
-  // SVG 파일 다운로드 함수
   const downloadSVG = () => {
     const svgElement = document.getElementById("seal-svg");
     if (!svgElement) return;
@@ -38,7 +22,7 @@ const Stamp = () => {
 
     URL.revokeObjectURL(url);
   };
-
+  
   return (
     <div className="flex flex-col items-center">
       <svg
@@ -50,38 +34,59 @@ const Stamp = () => {
       >
         {/* 원형 테두리 */}
         <circle cx="100" cy="100" r="90" stroke="red" strokeWidth="5" fill="none" />
-        <circle cx="100" cy="100" r="50" stroke="red" strokeWidth="3" fill="none" />
+        
+        <circle cx="100" cy="100" r="50" stroke="red" strokeWidth="3" fill="none"  />
         {/* 원형 경로 (텍스트를 따라갈 길) */}
         <defs>
-          <path id="circlePath" d="M 100,10 A 90,90 0 1,1 99.9,10" fill="none" />
+          <path id="circlePath" d="M 100,16 A 84,84 0 1,1 99.9,16" fill="none" /> {/* 반지름 84 */}
         </defs>
 
-        <text fill="red" fontSize="30" fontFamily="serif" dominantBaseline="hanging">
-          <textPath href="#circlePath" startOffset="50%" textAnchor="middle" textLength="420" spacing="preserve" dy="10">
-            {stampName}
+        <text fill="red" fontSize="30" fontFamily="HJB" dominantBaseline="hanging" style={{ fontFamily: 'HJB' }}>
+          <textPath
+            href="#circlePath"
+            startOffset="50%"
+            textAnchor="middle"
+            textLength="527.7875658030853" //  반지름 84인 원의 둘레
+            spacing="preserve"
+            dy="10"
+            // style={{ letterSpacing }}
+          >
+            &nbsp;{stampName}&nbsp;
+            
           </textPath>
         </text>
         <text
           x="100"
-          y="40"
+          y="42"
           fontSize="30"
           fontWeight="bold"
           textAnchor="middle"
           fill="red"
           fontFamily="serif"
-        >★
+        >{stampLang}
         </text>
         <text
           className="w-[20px]"
           x="100"
-          y="110"
-          fontSize="20"
+          y="95"
+          fontSize="38"
           fontWeight="bold"
           textAnchor="middle"
           fill="red"
           fontFamily="serif"
         >
-          {stampName}
+          理代
+        </text><text
+          className="w-[20px]"
+          x="100"
+          y="130"
+          fontSize="38"
+          fontWeight="bold"
+          textAnchor="middle"
+          fill="red"
+          fontFamily="serif"
+        >
+          事表
         </text>
       </svg>
 

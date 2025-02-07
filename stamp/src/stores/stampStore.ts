@@ -1,23 +1,19 @@
 import { create } from "zustand";
-import { useState } from "react"; 
 
-interface InfoState{
-    stampType: number;
-    stampLang: boolean;
+interface InfoState {
+    stampLang: string;
     stampFont: number;
     stampName: string;
-    setStampType: (type: number) => void;
-    setStampLang: (lang: boolean) => void;
+   
+    setStampLang: (lang: string) => void;
     setStampFont: (font: number) => void;
     setStampName: (name: string) => void;
 }
 
-export const useInfoStore = create<InfoState>((set)=>({
-    stampType: 0,
-    stampLang: true,
+export const useInfoStore = create<InfoState>((set) => ({
+    stampLang: "●",
     stampFont: 0,
     stampName: "",
-    setStampType: (type) => set({ stampType: type }),
     setStampLang: (lang) => set({ stampLang: lang }),
     setStampFont: (font) => set({ stampFont: font }),
     setStampName: (name) => set({ stampName: name }),
