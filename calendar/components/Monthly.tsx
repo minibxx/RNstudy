@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextStyle } from 'react-native';
 import { getHolidayApi } from "../services/holiday";
 import moment, { Moment } from 'moment';
+import { useCalendarStore } from '@/stores/calendarStore';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -11,6 +12,7 @@ interface Holiday {
 }
 
 const Monthly: React.FC = () => {
+  const {schedules, types} = useCalendarStore();
   const [currentMonth, setCurrentMonth] = useState<Moment>(moment());
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
@@ -104,7 +106,8 @@ const Monthly: React.FC = () => {
                 const isSaturday = date.day() === 6;
                 const isCurrentMonth = date.month() === currentMonth.month();
                 const holiday = holidays.find(h => h.date === formattedDate);
-                
+                const scheduleForDate = schedules.filter(schedule => moment(schedule.date).format("YYYYMMDD") === formattedDate);
+                const workTypeForDate = types.filter(type => moment(type.date).format("YYYYMMDD") === formattedDate);
                 return (
                   <View key={dayIndex} style={styles.date}>
                     <Text
@@ -121,6 +124,15 @@ const Monthly: React.FC = () => {
                     {holiday && (
                       <Text style={styles.holidayText}>{holiday.name}</Text>
                     )}
+                    <View style={styles.grid}>
+                      {scheduleForDate.map((schedule, index) => (
+                          <Text style={styles.scheduleText}>{schedule.text}</Text>
+                      ))}
+
+                    {workTypeForDate.map((work, i) => (
+                      <Text style={[workTypeStyles[work.type], styles.workTypeText] }>{work.type}</Text>
+                    ))}
+                    </View>
                   </View>
                 );
               })}
@@ -131,7 +143,12 @@ const Monthly: React.FC = () => {
     </>
   );
 };
-
+const workTypeStyles: Record<string, TextStyle> = {
+  "연장": { color: "#ffb61e", backgroundColor: "#ffb61e" },
+  "파견": { color: "#ffa400", backgroundColor: "#ffa400" },
+  "외근": { color: "#fa8c35", backgroundColor: "#fa8c35" },
+  "출장": { color: "#ff7500", backgroundColor: "#ff7500" },
+};
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
@@ -207,6 +224,22 @@ const styles = StyleSheet.create({
   holiday: {
     color: 'red',
   },
+  scheduleText:{
+    backgroundColor: '#44cef6',
+    color: '#44cef6',
+    width: 8,
+    height: 8,
+    margin: 2,
+    borderRadius: 50,
+    fontSize: 0.1
+  },
+  workTypeText: {
+    width: 8,
+    height: 8,
+    margin: 2,
+    borderRadius: 50,
+    fontSize: 0.1
+  }
 });
 
 export default Monthly;

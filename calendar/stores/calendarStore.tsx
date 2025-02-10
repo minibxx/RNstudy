@@ -69,11 +69,18 @@ export const useCalendarStore = create<CalendarState>((set) => ({
                 )
             )
         })),
-    addWorkType: (type, date) =>{
-        set((state) => ({
-            types: [...state.types, { type, date}],
-        }));
-    },
+        addWorkType: (type, date) => {
+            set((state) => {
+                const newWorkType = { type, date: date.clone() }; // 새로운 객체 생성
+                return {
+                    types: [...state.types, newWorkType] // 새로운 배열 생성
+                };
+            });
+        },
+        
+        
+        
+        
     removeWorkType: (date, type) => 
         set((state) => ({
             types: state.types.filter(types => 
