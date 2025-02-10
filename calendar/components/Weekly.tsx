@@ -107,7 +107,7 @@ const Weekly: React.FC = () => {
                   ))}
                   {workTypeForDate.map((work, i) => (
                     <TouchableOpacity key={i} style={styles.scheduleItem} onLongPress={() => handleLongPressDelete2(work.date, work.type)}>
-                      <Text style={[ workTypeStyles[work.type] || { color: "black" }]}>{work.type}</Text>
+                      <Text style={ workTypeStyles[work.type] }>{work.type}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -129,7 +129,7 @@ const workTypeStyles: Record<string, TextStyle> = {
 
 const styles = StyleSheet.create({
   headerContainer: { flexDirection: 'row', margin: 20, alignItems: 'center', gap: 25, justifyContent: 'center' },
-  monthText: { fontSize: 20, fontWeight: 'bold', paddingVertical: 10 },
+  monthText: { fontSize: 20, fontWeight: 'bold', paddingBottom: 10 },
   calendarContainer: { width: '90%', marginHorizontal: '5%', backgroundColor: '#fff', borderRadius: 10, padding: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 10, elevation: 5 },
   header: { flexDirection: 'row', justifyContent: 'space-between' },
   day: { flex: 1, paddingTop: 10 },
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   blue: { color: 'blue' },
   holiday: { color: 'red' },
   holidayText: { textAlign: 'center', fontSize: 12, color: 'red', marginTop: 3 },
-  scheduleContainer: { marginTop: 5 },
+  scheduleContainer: { marginTop: 5, marginHorizontal:2 },
   scheduleText: { color: '#fff', backgroundColor: '#44cef6', borderRadius: 50, paddingHorizontal: 10, marginBottom: 3, textAlign: 'center' },
   scheduleItem: {},
 });

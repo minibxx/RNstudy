@@ -18,15 +18,16 @@ const HomeScreen = () => {
   return (
     <SafeAreaProvider> 
       <SafeAreaView style={styles.container}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={clickMonth}>
-            <Text>월간</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={clickWeek}>
-            <Text>주간</Text>
-          </TouchableOpacity>
+        <View style={{display: 'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={clickMonth}>
+              <Text>월간</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={clickWeek}>
+              <Text>주간</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        
         { clickCalendar === 'monthly' ? <Monthly /> : <Weekly /> }
 
         <Schedule />
@@ -45,8 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     gap: 10,
-    marginRight: '4%',
-    marginTop: '3%', 
+    marginTop: 20
   },
 });
 

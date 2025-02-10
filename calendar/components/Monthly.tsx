@@ -12,7 +12,7 @@ interface Holiday {
 }
 
 const Monthly: React.FC = () => {
-  const {schedules, types} = useCalendarStore();
+  const { schedules, types } = useCalendarStore();
   const [currentMonth, setCurrentMonth] = useState<Moment>(moment());
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
@@ -126,12 +126,12 @@ const Monthly: React.FC = () => {
                     )}
                     <View style={styles.grid}>
                       {scheduleForDate.map((schedule, index) => (
-                          <Text style={styles.scheduleText}>{schedule.text}</Text>
+                        <Text style={styles.scheduleText}>{schedule.text}</Text>
                       ))}
 
-                    {workTypeForDate.map((work, i) => (
-                      <Text style={[workTypeStyles[work.type], styles.workTypeText] }>{work.type}</Text>
-                    ))}
+                      {workTypeForDate.map((work, i) => (
+                        <Text style={[workTypeStyles[work.type], styles.workTypeText]}>{work.type}</Text>
+                      ))}
                     </View>
                   </View>
                 );
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   monthText: {
     fontSize: 20,
     fontWeight: 'bold',
-    paddingVertical: 10
+    paddingBottom: 10
   },
   calendarContainer: {
     width: '90%',
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   holiday: {
     color: 'red',
   },
-  scheduleText:{
+  scheduleText: {
     backgroundColor: '#44cef6',
     color: '#44cef6',
     width: 8,

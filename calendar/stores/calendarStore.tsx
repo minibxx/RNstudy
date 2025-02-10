@@ -18,6 +18,7 @@ interface CalendarState {
     selectedType: Moment | null;
     schedules: Schedule[];
     types: WorkType[];
+    
     goToPreviousWeek: () => void;
     goToNextWeek: () => void;
     

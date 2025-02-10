@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet, Platform , TouchableOpacity, TextInput } from "react-native";
 import { useCalendarStore } from "../stores/calendarStore";
 import moment, { Moment } from "moment";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Schedule = () => {
     const { addSchedule } = useCalendarStore();
