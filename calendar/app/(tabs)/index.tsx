@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView, TextInput, SafeAreaView } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'; // 안전 영역 관련 import 추가
 
 import Monthly from '../../components/Monthly'
 import Weekly from '../../components/Weekly'
-import Test from '@/components/Test';
 import Schedule from '@/components/Schedule';
 import ScheduleWork from '@/components/WorkType';
 
@@ -16,34 +16,23 @@ const HomeScreen = () => {
     setClickCalendar('weekly')
   }
   return (
-    <>
-     <SafeAreaView style={styles.container}>
-      
-      {/* <ScrollView> */}
-        <View style={{display: 'flex', flexDirection: 'row', justifyContent:'flex-end', gap: 10, paddingRight: '4%', paddingTop: '3%'}}>
-          <TouchableOpacity
-            onPress={clickMonth}
-          >
-            <Text style={{}}>월간</Text>
+    <SafeAreaProvider> 
+      <SafeAreaView style={styles.container}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={clickMonth}>
+            <Text>월간</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={clickWeek}
-          >
-            <Text style={{}}>주간</Text>
+          <TouchableOpacity onPress={clickWeek}>
+            <Text>주간</Text>
           </TouchableOpacity>
         </View>
-        { clickCalendar == 'monthly' ? 
-        <Monthly />
-        :
-       <Weekly /> 
-        }
+        
+        { clickCalendar === 'monthly' ? <Monthly /> : <Weekly /> }
 
-        <Schedule/>
-        <ScheduleWork/>
-        {/* <Test /> */}
-      {/* </ScrollView> */}
-    </SafeAreaView>
-    </>
+        <Schedule />
+        <ScheduleWork />
+      </SafeAreaView>
+    </SafeAreaProvider>
   )
 };
 
@@ -51,9 +40,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-	plus: {
-		backgroundColor: 'blue'
-	}
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 10,
+    marginRight: '4%',
+    marginTop: '3%', 
+  },
 });
 
 export default HomeScreen;
