@@ -17,7 +17,6 @@
 //   }, []); 
 //   console.log(members)
 //   return (
-//     <ScrollView>
 
 //         <View style={styles.container}>
 //         {members.map((member, i) => {
@@ -33,7 +32,6 @@
 //             );
 //         })}
 //         </View>
-//         </ScrollView>
 //   );
 // };
 

@@ -31,7 +31,7 @@ const HomeScreen = () => {
               <Text>주간  | </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={clickOr}>
-              <Text>조직도</Text>
+              <Text>조직</Text>
             </TouchableOpacity>
           </View>
         </View>
