@@ -6,6 +6,7 @@ import Monthly from '../../components/Monthly'
 import Weekly from '../../components/Weekly'
 import Schedule from '@/components/Schedule';
 import ScheduleWork from '@/components/WorkType';
+import Organization from '@/components/Organiziton';
 
 const HomeScreen = () => {
   const [clickCalendar, setClickCalendar] = useState<string>('monthly');
@@ -15,23 +16,35 @@ const HomeScreen = () => {
   const clickWeek = () => {
     setClickCalendar('weekly')
   }
+  const clickOr = () => {
+    setClickCalendar('organization')
+  }
   return (
-    <SafeAreaProvider> 
+    <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <View style={{display: 'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={clickMonth}>
-              <Text>월간</Text>
+              <Text>월간  |</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={clickWeek}>
-              <Text>주간</Text>
+              <Text>주간  | </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={clickOr}>
+              <Text>조직도</Text>
             </TouchableOpacity>
           </View>
         </View>
-        { clickCalendar === 'monthly' ? <Monthly /> : <Weekly /> }
-
-        <Schedule />
-        <ScheduleWork />
+        {clickCalendar === 'monthly' && <Monthly />}
+        {clickCalendar === 'weekly' && <Weekly />}
+        {clickCalendar === 'organization' && <Organization />}
+        
+        {clickCalendar !== 'organization' && (
+        <>
+          <Schedule />
+          <ScheduleWork />
+        </>
+      )}
       </SafeAreaView>
     </SafeAreaProvider>
   )
