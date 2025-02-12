@@ -83,7 +83,7 @@ const Monthly: React.FC = () => {
       <View style={styles.calendarContainer}>
         <View style={styles.header}>
           {daysOfWeek.map((day, index) => (
-            <View key={index} style={styles.day}>
+            <View style={styles.day}>
               <Text
                 style={[
                   styles.dayText,

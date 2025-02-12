@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Platform , TouchableOpacity, TextInput } from "react-native";
+import { Text, View, StyleSheet, Platform, TouchableOpacity, TextInput } from "react-native";
 import { useCalendarStore } from "../stores/calendarStore";
 import moment, { Moment } from "moment";
+import Datepicker from "./DatepickerS";
+
 
 const Schedule = () => {
     const { addSchedule } = useCalendarStore();
@@ -11,11 +13,11 @@ const Schedule = () => {
     const [scheduleDate, setScheduleDate] = useState<string>('');
     const [scheduleText, setScheduleText] = useState<string>('');
 
-    const isWeb = Platform.OS === 'web';
     const handleConfirm = (date: Date) => {
         setScheduleDate(moment(date).format("YYYY-MM-DD"));
         setDatePickerVisible(false);
     };
+
     const submitSchedule = () => {
         if (scheduleDate && scheduleText) {
             const formattedDate = moment(scheduleDate, "YYYY-MM-DD");
@@ -31,16 +33,16 @@ const Schedule = () => {
             setScheduleText('');
         }
     };
-
     return (
         <View style={styles.testContainer}>
-             <TextInput
+            {/* <TextInput
                             placeholder="날짜 (YYYY-MM-DD)"
                             placeholderTextColor={'gray'}
                         style={styles.input}
                         value={scheduleDate}
                         onChangeText={setScheduleDate} 
-                        />
+                        /> */}
+            <Datepicker onChange={setScheduleDate} />
 
             {/* 날짜 선택 버튼
             <TouchableOpacity onPress={() => setDatePickerVisible(true)} style={styles.input}>

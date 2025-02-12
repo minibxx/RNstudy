@@ -30,7 +30,6 @@ const Organization = () => {
         }
         setMembers(result);
         setCurrentPage(1);
-        console.log(members)
     }, [filterWord]);
 
     const pageSize = 7;

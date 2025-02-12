@@ -14,7 +14,7 @@ interface WorkType {
 interface CalendarState {
     startDate: Moment;
     endDate: Moment;
-    selectedDate: Moment | null;
+    selectedDate: Moment;
     selectedType: Moment | null;
     schedules: Schedule[];
     types: WorkType[];
@@ -32,7 +32,7 @@ interface CalendarState {
 export const useCalendarStore = create<CalendarState>((set) => ({
     startDate: moment().startOf('week'),
     endDate: moment().endOf('week'),
-    selectedDate: null,
+    selectedDate: moment(), 
     selectedType: null,
     schedules: [],
     types: [],
@@ -41,7 +41,7 @@ export const useCalendarStore = create<CalendarState>((set) => ({
         set((state) => ({
             startDate: state.startDate.clone().subtract(1, 'week').startOf('week'),
             endDate: state.endDate.clone().subtract(1, 'week').endOf('week'),
-            selectedDate: null,
+            selectedDate: state.selectedDate.clone().subtract(1, 'week'),
         }));
     },
 
@@ -49,18 +49,26 @@ export const useCalendarStore = create<CalendarState>((set) => ({
         set((state) => ({
             startDate: state.startDate.clone().add(1, 'week').startOf('week'),
             endDate: state.endDate.clone().add(1, 'week').endOf('week'),
-            selectedDate: null,
+            selectedDate: state.selectedDate.clone().add(1, 'week'),
         }));
     },
 
     setSelectedDate: (date) => {
-        set({ selectedDate: date });
+        set({ selectedDate: date.clone() });
     },
+    
     addSchedule: (text, date) => {
         set((state) => ({
-            schedules: [...state.schedules, { text, date }],
+            schedules: [...state.schedules, { text, date: date.clone() }],
         }));
+        set((state) => {
+            const newScheduleType = { text, date: date.clone() }; // 새로운 객체 생성
+            return {
+                schedules: [...state.schedules, newScheduleType] // 새로운 배열 생성
+            };
+        });
     },
+    
     removeSchedule: (date, text) => 
         set((state) => ({
             schedules: state.schedules.filter(schedule => 

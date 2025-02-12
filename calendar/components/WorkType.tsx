@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, TextInput } from "react-native";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DropDownPicker from "react-native-dropdown-picker";
 import moment from "moment";
 import { useCalendarStore } from "@/stores/calendarStore";
+import Datepicker from "./Datepicker";
+
+
 
 const WorkType = () => {
     const { addWorkType } = useCalendarStore();
@@ -40,16 +42,18 @@ const WorkType = () => {
             setWorkType(null);
         }
     };
-
+    
     return (
         <View style={styles.testContainer}>
-            <TextInput
+            {/* <TextInput
                 placeholder="날짜 (YYYY-MM-DD)"
                 placeholderTextColor={'gray'}
             style={styles.input}
             value={workDate}
             onChangeText={setWorkDate} 
-            />
+            /> */}
+            <Datepicker onChange={setWorkDate}/>
+            
 
             {/* 날짜 선택 버튼
             <TouchableOpacity onPress={() => setDatePickerVisible(true)} style={styles.input}>
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
         width: '37%',
     },
     dropdown: {
-        width: 150,
+        width: 140,
         borderColor: '#fff',
         borderWidth: 1,
     },

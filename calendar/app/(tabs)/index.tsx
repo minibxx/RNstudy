@@ -7,6 +7,7 @@ import Weekly from '../../components/Weekly'
 import Schedule from '@/components/Schedule';
 import ScheduleWork from '@/components/WorkType';
 import Organization from '@/components/Organiziton';
+import Datepicker from '@/components/Datepicker';
 
 const HomeScreen = () => {
   const [clickCalendar, setClickCalendar] = useState<string>('monthly');
@@ -43,6 +44,7 @@ const HomeScreen = () => {
         <>
           <Schedule />
           <ScheduleWork />
+          {/* <Datepicker/> */}
         </>
       )}
       </SafeAreaView>
