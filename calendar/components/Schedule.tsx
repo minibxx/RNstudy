@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet, Platform, TouchableOpacity, TextInput } from "react-native";
 import { useCalendarStore } from "../stores/calendarStore";
 import moment, { Moment } from "moment";
-import Datepicker from "./DatepickerS";
+import Datepicker from "./Datepicker";
 
 
 const Schedule = () => {

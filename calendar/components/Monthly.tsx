@@ -83,7 +83,7 @@ const Monthly: React.FC = () => {
       <View style={styles.calendarContainer}>
         <View style={styles.header}>
           {daysOfWeek.map((day, index) => (
-            <View style={styles.day}>
+            <View key={index} style={styles.day}>
               <Text
                 style={[
                   styles.dayText,
@@ -109,7 +109,7 @@ const Monthly: React.FC = () => {
                 const scheduleForDate = schedules.filter(schedule => moment(schedule.date).format("YYYYMMDD") === formattedDate);
                 const workTypeForDate = types.filter(type => moment(type.date).format("YYYYMMDD") === formattedDate);
                 return (
-                  <View key={dayIndex} style={styles.date}>
+                  <View key={formattedDate} style={styles.date}>
                     <Text
                       style={[
                         styles.dateText,
