@@ -45,29 +45,8 @@ const WorkType = () => {
     
     return (
         <View style={styles.testContainer}>
-            {/* <TextInput
-                placeholder="날짜 (YYYY-MM-DD)"
-                placeholderTextColor={'gray'}
-            style={styles.input}
-            value={workDate}
-            onChangeText={setWorkDate} 
-            /> */}
             <Datepicker onChange={setWorkDate}/>
-            
-
-            {/* 날짜 선택 버튼
-            <TouchableOpacity onPress={() => setDatePickerVisible(true)} style={styles.input}>
-                <Text style={styles.dateText}>{"날짜 선택"}</Text>
-            </TouchableOpacity> */}
-            {/* 날짜 선택 모달
-            <DateTimePickerModal
-                isVisible={datePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={() => setDatePickerVisible(false)}
-            /> */}
-
-            {/* 근무 형태 드롭다운 */}
+        
             <DropDownPicker
                 placeholder="근무 형태 선택"
                 open={open}
@@ -81,7 +60,6 @@ const WorkType = () => {
                 dropDownContainerStyle={styles.dropDownContainer}
             />
 
-            {/* 저장 버튼 */}
             <TouchableOpacity onPress={submitType}>
                 <Text style={styles.plus}>+</Text>
             </TouchableOpacity>
@@ -116,7 +94,7 @@ const styles = StyleSheet.create({
         width: '37%',
     },
     dropdown: {
-        width: 140,
+        width: 137,
         borderColor: '#fff',
         borderWidth: 1,
     },

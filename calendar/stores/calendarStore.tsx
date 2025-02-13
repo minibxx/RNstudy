@@ -58,9 +58,6 @@ export const useCalendarStore = create<CalendarState>((set) => ({
     },
     
     addSchedule: (text, date) => {
-        set((state) => ({
-            schedules: [...state.schedules, { text, date: date.clone() }],
-        }));
         set((state) => {
             const newScheduleType = { text, date: date.clone() }; // 새로운 객체 생성
             return {
