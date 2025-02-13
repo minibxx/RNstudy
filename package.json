@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "create-next-app": "^15.1.6",
+    "create-next-app": "^15.1.7",
     "filter": "^0.1.1"
   }
 }
