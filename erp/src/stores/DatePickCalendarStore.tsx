@@ -5,15 +5,18 @@ interface CalendarState {
   currentMonth: Dayjs;
   startDate: Dayjs;
   endDate: Dayjs;
+  selectedDate: Dayjs | null; // 선택된 날짜
   setCurrentMonth: (month: Dayjs) => void;
   updateStartDate: () => void;
   updateEndDate: () => void;
+  selectDate: (date: Dayjs) => void; // 날짜 선택 함수
 }
 
 export const useCalendarStore = create<CalendarState>((set) => ({
   currentMonth: dayjs(),
-  startDate: dayjs().startOf('month').startOf('week'),  
-  endDate: dayjs().endOf('month').endOf('week'),      
+  startDate: dayjs().startOf('month').startOf('week'),
+  endDate: dayjs().endOf('month').endOf('week'),
+  selectedDate: null, // 초기 선택된 날짜는 null
   setCurrentMonth: (month) => {
     const startDate = month.startOf('month').startOf('week');
     const endDate = month.endOf('month').endOf('week');
@@ -21,4 +24,5 @@ export const useCalendarStore = create<CalendarState>((set) => ({
   },
   updateStartDate: () => set((state) => ({ startDate: state.currentMonth.startOf('month').startOf('week') })),
   updateEndDate: () => set((state) => ({ endDate: state.currentMonth.endOf('month').endOf('week') })),
+  selectDate: (date) => set({ selectedDate: date }), // 날짜를 선택하는 함수
 }));

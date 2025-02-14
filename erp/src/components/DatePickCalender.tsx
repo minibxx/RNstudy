@@ -25,7 +25,7 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekday);
 
 function DatePickCalendar() {
-  const { currentMonth, setCurrentMonth, startDate, endDate } = useCalendarStore();
+  const { currentMonth, setCurrentMonth, startDate, endDate, selectDate, selectedDate } = useCalendarStore();
 
   let day: Dayjs = startDate.subtract(1, 'day'); // 시작 전날 설정
   const calendar: Dayjs[][] = [];
@@ -41,6 +41,7 @@ function DatePickCalendar() {
     );
   }
 
+	console.log(selectedDate?.format("MM/DD"))
   return (
     <CalendarContainer>
       <div className='flex justify-center w-[100%]'>
@@ -78,7 +79,15 @@ function DatePickCalendar() {
             {week.map((date, dayIndex) => (
               <div 
                 key={dayIndex} 
-                style={{ fontSize: '14px', padding: '8px', width: '5%', textAlign: 'center' }}
+                style={{
+                  fontSize: '14px', 
+                  padding: '8px', 
+                  width: '5%', 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  backgroundColor: selectedDate?.isSame(date, 'day') ? '#cce4ff' : 'transparent',
+                }}
+                onClick={() => selectDate(date)} 
               >
                 {date.format('D')}
               </div>
