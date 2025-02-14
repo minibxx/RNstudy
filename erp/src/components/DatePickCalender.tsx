@@ -1,6 +1,6 @@
 "use client"
 import dayjs, { Dayjs } from 'dayjs';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
@@ -24,7 +24,7 @@ const CalendarDiv = styled.div`
 dayjs.extend(weekOfYear);
 dayjs.extend(weekday);
 
-function DatePickCalendar() {
+function DatePickCalendar({ onChange }: { onChange: (value: string) => void }) {
   const { currentMonth, setCurrentMonth, startDate, endDate, selectDate, selectedDate } = useCalendarStore();
 
   let day: Dayjs = startDate.subtract(1, 'day'); // 시작 전날 설정
@@ -42,6 +42,13 @@ function DatePickCalendar() {
   }
 
 	console.log(selectedDate?.format("MM/DD"))
+
+	const handleDateClick = (date: Dayjs) => {
+    selectDate(date);
+    const formattedDate = date.format('YYYY-MM-DD');
+    onChange(formattedDate); // 부모로 선택된 날짜 전달
+  };
+
   return (
     <CalendarContainer>
       <div className='flex justify-center w-[100%]'>
@@ -87,7 +94,7 @@ function DatePickCalendar() {
                   cursor: 'pointer',
                   backgroundColor: selectedDate?.isSame(date, 'day') ? '#cce4ff' : 'transparent',
                 }}
-                onClick={() => selectDate(date)} 
+                onClick={() => handleDateClick(date)} 
               >
                 {date.format('D')}
               </div>
