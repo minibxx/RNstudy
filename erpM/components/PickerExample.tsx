@@ -8,6 +8,9 @@ const PickerExample: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Select a language: {selectedValue}</Text>
+      <div>
+       
+      </div>
       <Picker
         selectedValue={selectedValue}
         onValueChange={(itemValue) => setSelectedValue(itemValue)}
