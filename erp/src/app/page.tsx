@@ -10,7 +10,6 @@ export default function Home() {
       <Organization/>
       <GNB/>
       <PeriodPick/>
-      {/* <DatePickCalendar/> */}
     </>
   )
 }

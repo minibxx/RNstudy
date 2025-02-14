@@ -41,8 +41,6 @@ function DatePickCalendar({ onChange }: { onChange: (value: string) => void }) {
     );
   }
 
-	console.log(selectedDate?.format("MM/DD"))
-
 	const handleDateClick = (date: Dayjs) => {
     selectDate(date);
     const formattedDate = date.format('YYYY-MM-DD');

@@ -30,8 +30,6 @@ function PeriodPick() {
             <Image src="/BIZ.png" alt="hi" width={20} height={20}/>
         </CalendarContainer>
         { calendarOpen && <DatePickCalendar onChange={handleDateClick}/>}
-
-        
     </>
   )
 }
