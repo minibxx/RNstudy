@@ -4,6 +4,7 @@ import DatePickCalendar from './DatePickCalender'
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useCalendarStore } from '@/stores/DatePickCalendarStore';
+import { useDatePickStore } from '@/stores/SalesManagementStore';
 
 const CalendarContainer = styled.div`
   width: 90%;
@@ -12,24 +13,40 @@ const CalendarContainer = styled.div`
   display: flex;
 `;
 function PeriodPick() {
-    const { startDate } = useCalendarStore();
+    const { startDate, endDate, selectDate } = useCalendarStore();
+    const { startDatePick, setStartDatePick, endDatePick, setEndDatePick } = useDatePickStore();
+    
     const [calendarOpen, setCalendarOpen] = useState(false);
-    const [datePick, setDatePick] = useState("");
 
-    const clickCalendar = () => {
+    const clickCalendar1 = () => {
         setCalendarOpen(!calendarOpen); 
     }
-    const handleDateClick = (value: string) => {
-        setDatePick(value); 
+    const clickCalendar2 = () => {
+        setCalendarOpen(!calendarOpen); 
+    }
+    const handleDateClick1 = (value: string) => {
+        setStartDatePick(value); 
         setCalendarOpen(false); 
       };
+      const handleDateClick2 = (value: string) => {
+        setEndDatePick(value); 
+        setCalendarOpen(false); 
+      };
+
+      console.log('흠', startDate, '냐', endDate)
   return (
     <>
-        <CalendarContainer onClick={()=>clickCalendar()}>
-            <span>{datePick || startDate.format("YY-MM-DD")}</span>
+        <CalendarContainer onClick={()=>clickCalendar1()}>
+            <span>{startDatePick || startDate.format("YY-MM-DD")}</span>
             <Image src="/BIZ.png" alt="hi" width={20} height={20}/>
         </CalendarContainer>
-        { calendarOpen && <DatePickCalendar onChange={handleDateClick}/>}
+        { calendarOpen && <DatePickCalendar onChange={handleDateClick1}/>}
+
+        <CalendarContainer onClick={()=>clickCalendar2()}>
+            <span>{endDatePick || endDate.format("YY-MM-DD")}</span>
+            <Image src="/BIZ.png" alt="hi" width={20} height={20}/>
+        </CalendarContainer>
+        { calendarOpen && <DatePickCalendar onChange={handleDateClick2}/>}
     </>
   )
 }

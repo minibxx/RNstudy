@@ -18,7 +18,7 @@ const CalendarContainer = styled.div`
 const CalendarDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 18px;
+  gap: 2%;
 `;
 
 dayjs.extend(weekOfYear);
