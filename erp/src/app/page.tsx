@@ -1,15 +1,17 @@
-import DatePickCalendar from "@/components/DatePickCalender";
-import DatePickMonth from "@/components/DatePickMonth";
-import DatePickYear from "@/components/DatePickYear";
+import DatePickCalendar from "@/components/calendar/DatePickCalender";
+import DatePickMonth from "@/components/calendar/DatePickMonth";
+import DatePickYear from "@/components/calendar/DatePickYear";
 import GNB from "@/components/GNB";
-import Organization from "@/components/Organization";
-import PeriodPick from "@/components/PeriodPick";
+import Organization from "@/components/organization/Organization";
+import PeriodPick from "@/components/calendar/PeriodPick";
+import UploadFile from "@/components/UploadFile";
 import Image from "next/image";
+import PageOrganization from "@/components/organization/PageOrganization";
 
 export default function Home() {
   return (
     <>
-      <Organization />
+      <PageOrganization/>
       <GNB />
       <div className="flex">
         <PeriodPick />
@@ -18,6 +20,7 @@ export default function Home() {
       </div>
       <DatePickMonth/>
       <DatePickYear/>
+      <UploadFile/>
     </>
   )
 }

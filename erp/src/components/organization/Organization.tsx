@@ -1,8 +1,15 @@
+"use client"
 import React from 'react'
+import styled from 'styled-components';
 
+const CalendarContainer = styled.div`
+  width: 45vw;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+`;
 function Organization() {
     return (
-        <ul>
+        <CalendarContainer>
             <ul>
                 <ul>
                     <details>
@@ -64,9 +71,11 @@ function Organization() {
                     <ul>
                         <details>
                             <summary>솔루션기획팀 (4)</summary>
-                            <ul>
-                            <li></li>
-                            </ul>
+                            <li>이용석</li>
+                            <li>오수민</li>
+                            <li>권은경</li>
+                            <li>송채영</li>
+                            <li>민유빈</li>                            
                         </details>
                     </ul>
 
@@ -135,7 +144,7 @@ function Organization() {
 
                 </ul>
             </ul>
-        </ul>
+        </CalendarContainer>
 
     )
 }
