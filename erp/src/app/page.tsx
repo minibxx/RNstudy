@@ -1,5 +1,6 @@
 import DatePickCalendar from "@/components/DatePickCalender";
 import DatePickMonth from "@/components/DatePickMonth";
+import DatePickYear from "@/components/DatePickYear";
 import GNB from "@/components/GNB";
 import Organization from "@/components/Organization";
 import PeriodPick from "@/components/PeriodPick";
@@ -16,6 +17,7 @@ export default function Home() {
         <PeriodPick />
       </div>
       <DatePickMonth/>
+      <DatePickYear/>
     </>
   )
 }
