@@ -10,7 +10,7 @@ import { useCalendarStore } from '@/stores/DatePickCalendarStore';
 const DaysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
 const CalendarContainer = styled.div`
-  width: 90%;
+  width: 45vw;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
 `;
@@ -25,7 +25,7 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekday);
 
 function DatePickCalendar({ onChange }: { onChange: (value: string) => void }) {
-  const { currentMonth, setCurrentMonth, startDate, endDate, selectDate, selectedDate } = useCalendarStore();
+  const { currentMonth, setCurrentDate, startDate, endDate, selectDate, selectedDate } = useCalendarStore();
 
   let day: Dayjs = startDate.subtract(1, 'day'); // 시작 전날 설정
   const calendar: Dayjs[][] = [];
@@ -55,7 +55,7 @@ function DatePickCalendar({ onChange }: { onChange: (value: string) => void }) {
           src="/BIZ.png" 
           width={20} 
           height={20} 
-          onClick={() => setCurrentMonth(currentMonth.subtract(1, 'month'))}
+          onClick={() => setCurrentDate(currentMonth.subtract(1, 'month'))}
           className="cursor-pointer"
         />
         <div>{currentMonth.format('MM월 YYYY')}</div>
@@ -64,7 +64,7 @@ function DatePickCalendar({ onChange }: { onChange: (value: string) => void }) {
           src="/BIZ.png" 
           width={20} 
           height={20} 
-          onClick={() => setCurrentMonth(currentMonth.add(1, 'month'))}
+          onClick={() => setCurrentDate(currentMonth.add(1, 'month'))}
           className="cursor-pointer"
         />
       </div>
