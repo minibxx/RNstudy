@@ -7,20 +7,18 @@ import PeriodPick from "@/components/calendar/PeriodPick";
 import UploadFile from "@/components/UploadFile";
 import Image from "next/image";
 import PageOrganization from "@/components/organization/PageOrganization";
+import PageSalary from "@/components/salary/PageSalary";
 
 export default function Home() {
   return (
     <>
       <PageOrganization/>
+      <PageSalary/>
       <GNB />
-      <div className="flex">
-        <PeriodPick />
-        <span className="mx-[10px]">~</span>
-        <PeriodPick />
-      </div>
-      <DatePickMonth/>
+      
+      {/* <DatePickMonth/>
       <DatePickYear/>
-      <UploadFile/>
+      <UploadFile/> */}
     </>
   )
 }

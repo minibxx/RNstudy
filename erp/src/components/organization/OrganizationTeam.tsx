@@ -45,7 +45,6 @@ const InputStyle = styled.div`
   display: flex;
 `;
 
-// 멤버 데이터 타입 정의
 interface Member {
   a: string;  // 이름
   b: string;  // 직위
