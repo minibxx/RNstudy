@@ -73,11 +73,12 @@ const HelpIcon = styled.span`
   margin-left: 6px;
   cursor: pointer;
   position: relative;
+  color: white;
 `;
 
 function Salary() {
     const [tooltip, setTooltip] = useState<number | null>(null);
-    
+
     const salaryData = [
         { name: "기본급", amount: "4,500,000원" },
         { name: "연장수당", amount: "100,000원", tooltip: "연장(휴일)근로시간 * 통상임금(시급) * 150%" },
@@ -85,7 +86,7 @@ function Salary() {
         { name: "식대", amount: "100,000원" },
         { name: "성과급", amount: "150,000원" },
         { name: "차량유지비", amount: "50,000원" },
-      ];
+    ];
     return (
         <>
             <div>
@@ -130,24 +131,24 @@ function Salary() {
                 </tbody>
             </TableContainer>
             <SalaryContainer>
-      <h3>지급내역 <strong>5,000,000원</strong></h3>
-      {salaryData.map((item, index) => (
-        <SalaryItem key={index}>
-          <div className='flex items-center'
-            onMouseEnter={() => setTooltip(index)} 
-            onMouseLeave={() => setTooltip(null)}
-          >
-            <p className='bg-[lightblue] w-[10px] h-[10px] rounded-[50px] mr-[10px]'/> {item.name}
-            {item.tooltip && (
-              <HelpIcon>?
-                <Tooltip show={tooltip === index}>{item.tooltip}</Tooltip>
-              </HelpIcon>
-            )}
-          </div>
-          <div>{item.amount}</div>
-        </SalaryItem>
-      ))}
-    </SalaryContainer>
+                <h3>지급내역 <strong>5,000,000원</strong></h3>
+                {salaryData.map((item, index) => (
+                    <SalaryItem key={index}>
+                        <div className='flex items-center'
+                            onMouseEnter={() => setTooltip(index)}
+                            onMouseLeave={() => setTooltip(null)}
+                        >
+                            <p className='bg-[lightblue] w-[10px] h-[10px] rounded-[50px] mr-[10px]' /> {item.name}
+                            {item.tooltip && (
+                                <HelpIcon>!
+                                    <Tooltip show={tooltip === index}>{item.tooltip}</Tooltip>
+                                </HelpIcon>
+                            )}
+                        </div>
+                        <div>{item.amount}</div>
+                    </SalaryItem>
+                ))}
+            </SalaryContainer>
 
         </>
     )
