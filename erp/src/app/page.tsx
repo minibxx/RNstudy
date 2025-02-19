@@ -9,17 +9,19 @@ import Image from "next/image";
 import PageOrganization from "@/components/organization/PageOrganization";
 import PageSalary from "@/components/salary/PageSalary";
 import PurchaseModal from "@/components/PurchaseModal";
+import PageDash from "@/components/dashboard/PageDash";
 
 export default function Home() {
   return (
     <>
-      <PageOrganization/>
+      {/* <PageOrganization/> */}
       <PageSalary/>
+      {/* <PageDash/> */}
       <GNB />
-      <PurchaseModal/>
-      {/* <DatePickMonth/>
+      {/* <PurchaseModal/> */}
+     <DatePickMonth/>
       <DatePickYear/>
-      <UploadFile/> */}
+      {/* <UploadFile/>  */}
     </>
   )
 }

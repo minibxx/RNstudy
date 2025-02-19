@@ -1,0 +1,41 @@
+export const colors = {
+    mainPrimary: "#36BFFA", 
+    primaryAccent: "#0A7EF7",
+    primaryLight1: "#EDF5FF", 
+    primaryLight2: "#FF6666", 
+    mainPrimaryOpacity: "rgba(54,191,250,0.5)",
+
+    secondaryRed: "#F63D68", 
+    secondaryGrey: "#354150", 
+    secondaryGreen: "#12B76A",
+
+    greenPoint: "#4DC9AA",
+    errorPoint: "#F31000", 
+    errorLight: "#FFD0CD",
+
+    mainBorder: "#d0cece", 
+    borderGrey2: "#CDD3DD", 
+    borderGrey3: "#CECECE",
+    borderGrey4: "#E4E8EE", 
+    borderGrey5: "#E0E0E0",
+    borderGrey6: "#EDEDED", 
+    borderOpactiy: "rgba(237,237,237,0.8)",
+
+    mainBlack: "#000", 
+    lightBlack: "",
+    mainWhite: "#fff", 
+    greyPoint: "#757575", 
+    greyLight: "#CBCBCB",
+    fontBlack1: "#000", 
+    fontBlack2: "#0F1B2A", 
+    fontBlack3: "#192534", 
+    fontBlack4: "#36363D", 
+    fontBlack5: "#757575",
+
+    fontGrey1: "#8C8C8C", 
+    fontGrey2: "#8D99A8", 
+    fontGrey3: "#949494", 
+    fontGrey4: "#9E9FA3", 
+    fontGrey5: "#A8B1BD", 
+    fontGrey6: "#B6B6B6",
+};

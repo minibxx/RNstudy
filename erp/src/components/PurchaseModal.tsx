@@ -17,7 +17,7 @@ const Modal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
                             <h2 className="text-xl font-semibold">매입 등록-{}</h2>
                             <button onClick={onClose}>X</button>
                         </div>
-                        <div className='grid grid-flow-row grid-cols-3'>
+                        <div className='grid grid-flow-row grid-cols-3 gap-[5%]'>
                             <div className="text-gray-600 flex w-[100%] justify-between">
                                 <div >세무구분</div>
                                 <select>
