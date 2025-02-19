@@ -16,9 +16,9 @@ export default function Home() {
     <>
       {/* <PageOrganization/> */}
       <PageSalary/>
-      {/* <PageDash/> */}
+      <PageDash/>
       <GNB />
-      {/* <PurchaseModal/> */}
+      <PurchaseModal/>
      <DatePickMonth/>
       <DatePickYear/>
       {/* <UploadFile/>  */}
