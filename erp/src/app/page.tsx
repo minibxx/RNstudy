@@ -8,6 +8,7 @@ import UploadFile from "@/components/UploadFile";
 import Image from "next/image";
 import PageOrganization from "@/components/organization/PageOrganization";
 import PageSalary from "@/components/salary/PageSalary";
+import PurchaseModal from "@/components/PurchaseModal";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
       <PageOrganization/>
       <PageSalary/>
       <GNB />
-      
+      <PurchaseModal/>
       {/* <DatePickMonth/>
       <DatePickYear/>
       <UploadFile/> */}

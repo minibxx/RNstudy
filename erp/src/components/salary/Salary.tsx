@@ -44,7 +44,7 @@ const SalaryItem = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 8px 0;
-  position: relative; // 툴팁 absolute를 위해 필요!
+  position: relative; 
 `;
 
 const Tooltip = styled.div<{ show: boolean }>`

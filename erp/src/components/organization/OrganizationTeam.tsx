@@ -149,7 +149,6 @@ function OrganizationTeam() {
         </TableContainer>
       </CalendarContainer>
       
-      {/* 모달 */}
       <Modal member={selectedMember} onClose={() => setSelectedMember(null)} />
     </>
   );
